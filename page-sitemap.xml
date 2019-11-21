@@ -15,14 +15,14 @@
     </url>
     
     <url>
-        <loc>https://www.xshell.cn/friends/</loc>
+        <loc>https://www.xshell.cn/about/</loc>
         <lastmod>2019-09-09T06:31:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://www.xshell.cn/about/</loc>
+        <loc>https://www.xshell.cn/friends/</loc>
         <lastmod>2019-09-09T06:31:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -36,14 +36,14 @@
     </url>
     
     <url>
-        <loc>https://www.xshell.cn/blog/categories/</loc>
+        <loc>https://www.xshell.cn/blog/tags/</loc>
         <lastmod>2019-09-09T06:31:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://www.xshell.cn/blog/tags/</loc>
+        <loc>https://www.xshell.cn/blog/categories/</loc>
         <lastmod>2019-09-09T06:31:42.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
