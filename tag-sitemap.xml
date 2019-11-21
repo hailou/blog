@@ -3,15 +3,43 @@
 
 
     <url>
+        <loc>https://www.xshell.cn/blog/tags/linux/</loc>
+        <lastmod>2019-11-21T02:29:25.653Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://www.xshell.cn/blog/tags/supervisor/</loc>
-        <lastmod>2019-11-21T02:04:07.753Z</lastmod>
+        <lastmod>2019-11-21T02:30:33.752Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://www.xshell.cn/blog/tags/activiti/</loc>
+        <lastmod>2019-11-21T02:38:03.815Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://www.xshell.cn/blog/tags/mysql/</loc>
+        <lastmod>2019-11-21T02:44:24.743Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://www.xshell.cn/blog/tags/Git/</loc>
-        <lastmod>2019-11-21T02:05:07.035Z</lastmod>
+        <lastmod>2019-11-21T02:44:42.371Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://www.xshell.cn/blog/tags/javascript/</loc>
+        <lastmod>2019-11-21T02:46:43.865Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
