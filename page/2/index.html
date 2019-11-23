@@ -247,8 +247,8 @@
       
         
   <h2 class="title">
-    <a href="/在本地用命令行创建一个git仓库，并推送到远程/">
-      在本地用命令行创建一个git仓库，并推送到远程
+    <a href="/Git merge分支到master/">
+      Git merge分支到master
     </a>
   </h2>
 
@@ -312,11 +312,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <h5 id="首先，进入项目目录下（没有的话自己创建一个）"><a href="#首先，进入项目目录下（没有的话自己创建一个）" class="headerlink" title="首先，进入项目目录下（没有的话自己创建一个）"></a>首先，进入项目目录下（没有的话自己创建一个）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd funeral_import</span><br></pre></td></tr></table></figure>
-<h5 id="在funeral-import目录下-初始化一个git仓库"><a href="#在funeral-import目录下-初始化一个git仓库" class="headerlink" title="在funeral_import目录下 初始化一个git仓库"></a>在funeral_import目录下 初始化一个git仓库</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+      <h6 id="本地拉一个分支出来"><a href="#本地拉一个分支出来" class="headerlink" title="本地拉一个分支出来"></a>本地拉一个分支出来</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xxx</span><br></pre></td></tr></table></figure>
+<h6 id="开发完以后提交到远程分支"><a href="#开发完以后提交到远程分支" class="headerlink" title="开发完以后提交到远程分支"></a>开发完以后提交到远程分支</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;commit xxx&quot;</span><br><span class="line">git push -u origin xxx</span><br></pre></td></tr></table></figure>
       
         <div class="readmore">
-          <a href="/在本地用命令行创建一个git仓库，并推送到远程/" class="flat-box">
+          <a href="/Git merge分支到master/" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1044,4 +1044,9 @@
 <script src="https://g.joyinshare.com/hc/piao.js" type="text/javascript"></script>
 <!--单击显示文字-->
 <script type="text/javascript" src="/js/click_show_text.js"></script>
+<!--点击爆米花-->
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/fireworks.js"></script>
+
 </html>
