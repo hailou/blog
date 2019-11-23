@@ -401,20 +401,6 @@
 	          </div>
 	      
 	          <div class="archive-item archive-post mark">
-	            <a href="/Git merge分支到master/">
-	              <time>04-14</time>
-	              <span class="title">
-	                
-	                  Git merge分支到master
-	                
-	                
-									
-									
-	              </span>
-	            </a>
-	          </div>
-	      
-	          <div class="archive-item archive-post mark">
 	            <a href="/git退回历史某一版本/">
 	              <time>04-14</time>
 	              <span class="title">
@@ -434,6 +420,20 @@
 	              <span class="title">
 	                
 	                  在本地用命令行创建一个git仓库，并推送到远程
+	                
+	                
+									
+									
+	              </span>
+	            </a>
+	          </div>
+	      
+	          <div class="archive-item archive-post mark">
+	            <a href="/Git merge分支到master/">
+	              <time>04-14</time>
+	              <span class="title">
+	                
+	                  Git merge分支到master
 	                
 	                
 									
@@ -926,7 +926,7 @@
 <script>
     var now = new Date(); 
     function createtime() { 
-        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间
+        var grt= new Date("08/11/2019 17:38:00");//在此处修改你的建站时间
         now.setTime(now.getTime()+250); 
         days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
         hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
@@ -934,7 +934,7 @@
         mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
         seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
         snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
-        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("timeDate").innerHTML = " 本站已勉强存活了"+dnum+" 天 "; 
         document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
     } 
 setInterval("createtime()",250);
@@ -1156,6 +1156,8 @@ setInterval("createtime()",250);
 
   <script>setLoadingBarProgress(100);</script>
 </body>
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="\js\FunnyTitle.js"></script>
 <!-- 页面点击小红心 -->
 <script type="text/javascript" src="/js/clicklove.js"></script>
 <!-- 动态背景 -->

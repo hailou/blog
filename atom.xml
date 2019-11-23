@@ -181,29 +181,6 @@
   </entry>
   
   <entry>
-    <title>Git merge分支到master</title>
-    <link href="https://www.xshell.cn/Git%20merge%E5%88%86%E6%94%AF%E5%88%B0master/"/>
-    <id>https://www.xshell.cn/Git merge分支到master/</id>
-    <published>2019-04-14T15:10:17.000Z</published>
-    <updated>2019-11-21T02:30:22.603Z</updated>
-    
-    <content type="html"><![CDATA[<h6 id="本地拉一个分支出来"><a href="#本地拉一个分支出来" class="headerlink" title="本地拉一个分支出来"></a>本地拉一个分支出来</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xxx</span><br></pre></td></tr></table></figure><h6 id="开发完以后提交到远程分支"><a href="#开发完以后提交到远程分支" class="headerlink" title="开发完以后提交到远程分支"></a>开发完以后提交到远程分支</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;commit xxx&quot;</span><br><span class="line">git push -u origin xxx</span><br></pre></td></tr></table></figure><a id="more"></a><h6 id="返回master"><a href="#返回master" class="headerlink" title="返回master"></a>返回master</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure><h6 id="把本地的分支合并到master"><a href="#把本地的分支合并到master" class="headerlink" title="把本地的分支合并到master"></a>把本地的分支合并到master</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge xxx</span><br></pre></td></tr></table></figure><h6 id="把本地的master同步到远程"><a href="#把本地的master同步到远程" class="headerlink" title="把本地的master同步到远程"></a>把本地的master同步到远程</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure><h6 id="如果不需要本地或者远程的xxx分支了，你可以选择删除。"><a href="#如果不需要本地或者远程的xxx分支了，你可以选择删除。" class="headerlink" title="如果不需要本地或者远程的xxx分支了，你可以选择删除。"></a>如果不需要本地或者远程的xxx分支了，你可以选择删除。</h6>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h6 id=&quot;本地拉一个分支出来&quot;&gt;&lt;a href=&quot;#本地拉一个分支出来&quot; class=&quot;headerlink&quot; title=&quot;本地拉一个分支出来&quot;&gt;&lt;/a&gt;本地拉一个分支出来&lt;/h6&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git checkout -b xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h6 id=&quot;开发完以后提交到远程分支&quot;&gt;&lt;a href=&quot;#开发完以后提交到远程分支&quot; class=&quot;headerlink&quot; title=&quot;开发完以后提交到远程分支&quot;&gt;&lt;/a&gt;开发完以后提交到远程分支&lt;/h6&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git add .&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git commit -m &amp;quot;commit xxx&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push -u origin xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Git" scheme="https://www.xshell.cn/blog/categories/Git/"/>
-    
-    
-      <category term="Git" scheme="https://www.xshell.cn/blog/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
     <title>git退回历史某一版本</title>
     <link href="https://www.xshell.cn/git%E9%80%80%E5%9B%9E%E5%8E%86%E5%8F%B2%E6%9F%90%E4%B8%80%E7%89%88%E6%9C%AC/"/>
     <id>https://www.xshell.cn/git退回历史某一版本/</id>
@@ -238,6 +215,29 @@
     
       &lt;h5 id=&quot;首先，进入项目目录下（没有的话自己创建一个）&quot;&gt;&lt;a href=&quot;#首先，进入项目目录下（没有的话自己创建一个）&quot; class=&quot;headerlink&quot; title=&quot;首先，进入项目目录下（没有的话自己创建一个）&quot;&gt;&lt;/a&gt;首先，进入项目目录下（没有的话自己创建一个）&lt;/h5&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cd funeral_import&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;h5 id=&quot;在funeral-import目录下-初始化一个git仓库&quot;&gt;&lt;a href=&quot;#在funeral-import目录下-初始化一个git仓库&quot; class=&quot;headerlink&quot; title=&quot;在funeral_import目录下 初始化一个git仓库&quot;&gt;&lt;/a&gt;在funeral_import目录下 初始化一个git仓库&lt;/h5&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git init&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Git" scheme="https://www.xshell.cn/blog/categories/Git/"/>
+    
+    
+      <category term="Git" scheme="https://www.xshell.cn/blog/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git merge分支到master</title>
+    <link href="https://www.xshell.cn/Git%20merge%E5%88%86%E6%94%AF%E5%88%B0master/"/>
+    <id>https://www.xshell.cn/Git merge分支到master/</id>
+    <published>2019-04-14T15:10:17.000Z</published>
+    <updated>2019-11-21T02:30:22.603Z</updated>
+    
+    <content type="html"><![CDATA[<h6 id="本地拉一个分支出来"><a href="#本地拉一个分支出来" class="headerlink" title="本地拉一个分支出来"></a>本地拉一个分支出来</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b xxx</span><br></pre></td></tr></table></figure><h6 id="开发完以后提交到远程分支"><a href="#开发完以后提交到远程分支" class="headerlink" title="开发完以后提交到远程分支"></a>开发完以后提交到远程分支</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;commit xxx&quot;</span><br><span class="line">git push -u origin xxx</span><br></pre></td></tr></table></figure><a id="more"></a><h6 id="返回master"><a href="#返回master" class="headerlink" title="返回master"></a>返回master</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure><h6 id="把本地的分支合并到master"><a href="#把本地的分支合并到master" class="headerlink" title="把本地的分支合并到master"></a>把本地的分支合并到master</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge xxx</span><br></pre></td></tr></table></figure><h6 id="把本地的master同步到远程"><a href="#把本地的master同步到远程" class="headerlink" title="把本地的master同步到远程"></a>把本地的master同步到远程</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure><h6 id="如果不需要本地或者远程的xxx分支了，你可以选择删除。"><a href="#如果不需要本地或者远程的xxx分支了，你可以选择删除。" class="headerlink" title="如果不需要本地或者远程的xxx分支了，你可以选择删除。"></a>如果不需要本地或者远程的xxx分支了，你可以选择删除。</h6>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h6 id=&quot;本地拉一个分支出来&quot;&gt;&lt;a href=&quot;#本地拉一个分支出来&quot; class=&quot;headerlink&quot; title=&quot;本地拉一个分支出来&quot;&gt;&lt;/a&gt;本地拉一个分支出来&lt;/h6&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git checkout -b xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h6 id=&quot;开发完以后提交到远程分支&quot;&gt;&lt;a href=&quot;#开发完以后提交到远程分支&quot; class=&quot;headerlink&quot; title=&quot;开发完以后提交到远程分支&quot;&gt;&lt;/a&gt;开发完以后提交到远程分支&lt;/h6&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git add .&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git commit -m &amp;quot;commit xxx&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push -u origin xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
