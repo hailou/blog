@@ -36,6 +36,12 @@ Visio  Standard 2016               7WHWN-4T7MP-G96JF-G33KR-W8GF4
 ##### KMS 使用。使用管理员权限打开 cmd 命令行。
 
 ```
+## 查看系统激活状态
+slmgr.vbs -xpr
+## 查看系统激活状态详细信息
+slmgr.vbs -dlv
+## 卸载密钥
+slmgr.vbs /upk
 ## 查看系统版本
 wmic os get caption
 ## 安装密钥，需要使用对应系统版本的激活密钥（GVLK）
