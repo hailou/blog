@@ -1,4 +1,6 @@
 title: {{ title }}
 date: {{ date }}
-tags:
+categories: 环境部署
+tags: 
+	- Git
 ---
