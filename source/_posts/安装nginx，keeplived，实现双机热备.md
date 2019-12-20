@@ -6,34 +6,14 @@ tags:
 	- nginx
 ---
 ### 安装nginx 
-```
-yum install nginx
-```
-
-<!-- more -->
-
-###### 会显示一大堆信息：Is this ok [y/N]: 输入y，屏幕滚了一会之后就安装完毕，最后提示“Complete!”就是安完了。
-###### 输入命令
-```
-whereis nginx
-```
-###### nginx: /usr/sbin/nginx /etc/nginx /usr/share/nginx
-*  配置所在目录：/etc/nginx/
-*   PID目录：/var/run/nginx.pid
-*  错误日志：/var/log/nginx/error.log
-*   访问日志：/var/log/nginx/access.log
-*   默认站点目录：/usr/share/nginx/html
-###### 常用命令
-*   启动nginx：nginx
-*  重启nginx：killall -HUP nginx
-*  测试nginx配置：nginx -t
-
-* * *
-
+详见《linux安装nginx 配置https》
 ### 安装keepalived
 ```
 yum install -y keepalived
 ```
+
+<!-- more -->
+
 ###### 修改配置文件
 ```
 vi /etc/keepalived/keepalived.conf
