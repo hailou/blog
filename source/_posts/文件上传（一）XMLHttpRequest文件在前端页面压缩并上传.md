@@ -1,8 +1,9 @@
-title: XMLHttpRequest文件在前端页面压缩并上传
+title: 文件上传（一）XMLHttpRequest文件在前端页面压缩并上传
 categories: 代码案例
 tags:
   - js
   - javascript
+  - 文件上传
 date: 2019-12-19 10:09:42
 ---
 代码如下
