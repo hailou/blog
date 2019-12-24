@@ -1,4 +1,4 @@
-title: windows下的mysql安装与卸载
+title: WINDOWS下的MYSQL安装与卸载
 date: 2019-11-21 10:43:15
 categories: 开发总结
 tags: 
