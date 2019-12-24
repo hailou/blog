@@ -1,4 +1,4 @@
-title: Windows/Office 激活及KMS服务器搭建
+title: windows/Office 激活及KMS服务器搭建
 date: 2019-11-28 11:00:48
 categories: 环境部署
 tags: 
