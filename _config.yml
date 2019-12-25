@@ -100,3 +100,7 @@ import:
 
 ## 评论
 livere_uid: MTAyMC80NzYwMy8yNDEwMw==
+# Security
+##
+encrypt:
+    enable: true
