@@ -66,7 +66,7 @@ you.com
 vim /etc/hosts
 host_ip_addr you.com you
 ```
-###### 修改IP
+##### 修改IP
 查看网卡信息:
 ```
 ifconfig -a
