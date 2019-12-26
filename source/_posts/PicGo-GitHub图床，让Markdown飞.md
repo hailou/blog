@@ -5,8 +5,10 @@ tags:
 date: 2019-12-25 17:59:11
 
 ---
-做了一个简单的总结，喜欢的可以自己试一下。
-##### PicGo的设置如下
+做了一个简单的总结，喜欢的可以自己试一下。PicGo的设置如下
+
+<!-- more -->
+
 ![](https://raw.githubusercontent.com/hailou/Figurebed/master/201912/20191225180540.png)
 ##### github设置图床
 设置仓库名：hailou/Figurebed
