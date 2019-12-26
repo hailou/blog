@@ -1,7 +1,7 @@
 title: PicGo+GitHub图床，让Markdown飞
-categories: 环境部署
+categories: 文件上传
 tags:
-  - Git
+  - github
 date: 2019-12-25 17:59:11
 
 ---
@@ -9,12 +9,12 @@ date: 2019-12-25 17:59:11
 
 <!-- more -->
 
-![](https://raw.githubusercontent.com/hailou/Figurebed/master/201912/20191225180540.png)
+![](https://raw.githubusercontent.com/hailou/Figurebed/master/img/201912/20191225180540.png)
 ##### github设置图床
 设置仓库名：hailou/Figurebed
 设定分支名：master
 设定token：fff851120fb45ebaadf22c6ac6a616a226b43ce9
-指定存储路径：201912/
+指定存储路径：img/201912/
 设置自定义域名：https://raw.githubusercontent.com/hailou/Figurebed/master
 
 ##### 七牛图床
