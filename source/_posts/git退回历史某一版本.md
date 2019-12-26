@@ -13,11 +13,11 @@ copyright: ture
 <!-- more -->
 
 <fancybox>
-![](http://blog.osyun.net/201911181902-1.png)
+![](https://raw.githubusercontent.com/hailou/Figurebed/master/201912/20191226093213.png)
 </fancybox>
 ##### 切换到master `git checkout master`，点一个，然后选择2那个值
 <fancybox>
-![](http://blog.osyun.net/201911181902-2.png)
+![](https://raw.githubusercontent.com/hailou/Figurebed/master/201912/20191226093211.png)
 </fancybox>
 `git checkout c634535c` 可以看到黄色标签
 ###### 回到最新的版本 `git checkout master`

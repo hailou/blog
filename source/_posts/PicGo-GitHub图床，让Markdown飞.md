@@ -3,10 +3,9 @@ categories: 环境部署
 tags:
   - Git
 date: 2019-12-25 17:59:11
-password: hailou111
-abstract: 本文档属于私人内容，谢绝浏览.
-message: 输入查看密码.
+
 ---
+做了一个简单的总结，喜欢的可以自己试一下。
 ##### PicGo的设置如下
 ![](https://raw.githubusercontent.com/hailou/Figurebed/master/201912/20191225180540.png)
 ##### github设置图床
@@ -17,8 +16,8 @@ message: 输入查看密码.
 设置自定义域名：https://raw.githubusercontent.com/hailou/Figurebed/master
 
 ##### 七牛图床
-设定AK：k5PTtVRzUV8cUMuMG18QJHNbp53DU3VApCi-lnS9
-设定SK：XwFfp-yQFAK2ZmZZqpkgwYVDVDYvvq5_bRypNB2Q
+设定AK：设定AK
+设定SK：设定SK
 设定存储命名空间：hailou-blog
 设定访问地址：http://blog.osyun.net
 确认存储区域：z1
