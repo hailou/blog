@@ -13,7 +13,7 @@ date: 2019-12-26 15:19:24
 
 ```
 [root@exchange-db db-backup]# crontab -e
-0 1 * * * rsync -va root@172.17.0.112:/home/nfs_yihai/* /home/nfs_yihai/
+0 1 * * * rsync -va root@172.17.0.112:/opt/nfs_yihai/* /opt/nfs_yihai/
 ```
 查看设置是否成功
 ```
@@ -25,12 +25,12 @@ crontab -l
 内容如下：
 ```
 #!/bin/bash
-mysqldump -uroot -ppssword exchange | gzip > /home/db-backup/dbname_$(date +%Y%m%d_%H%M%S).sql.gz
+mysqldump -uroot -ppssword dbname | gzip > /opt/db-backup/dbname_$(date +%Y%m%d_%H%M%S).sql.gz
 ```
 加入到计划任务里
 ```
 [root@exchange-db db-backup]# crontab -e
-0 1 * * * /home/db-backup/db_backup.sh
+0 1 * * * /opt/db-backup/db_backup.sh
 ```
 查看设置是否成功
 ```
