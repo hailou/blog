@@ -85,7 +85,7 @@ dir /usr/local/redis/datas
 replicaof 192.168.31.2 17000
 #如果slave 无法与master 同步，设置成slave不可读，方便监控脚本发现问题。
 replica-serve-stale-data no
-master的密码
+#master的密码
 masterauth 123456
 
 ### APPEND ONLY MODE 设置：
@@ -136,9 +136,15 @@ mkdir -p /usr/local/redis/sentinel
  
 ```
 cd /usr/local/redis/src
-./redis-server redis_master.conf
+./redis-server /usr/local/redis/redis_master.conf
 ```
-* 使用redis-cli访问服务端，查看状态
+* 启动服务,启动slave服务:
+ 
+```
+cd /usr/local/redis/src
+./redis-server /usr/local/redis/redis_slave.conf
+```
+* 使用redis-cli访问服务端，在master上查看状态
 ```
 ./redis-cli -p 17000 -a 123456
 127.0.0.1:17000> info replication
@@ -146,7 +152,7 @@ cd /usr/local/redis/src
 * 这里有具体的集群信息（略）
 * 启动Sentinel（哨兵）进程   
 ```
-./redis-sentinel sentinel.conf
+./redis-sentinel /usr/local/redis/sentinel.conf
 ```
 * 说明：哨兵进程不一定与redis数量一致，也不一定要放在redis服务器上，sentinel的作用是监控所有服务及与其它哨兵通信，若sentinel单独放其它服务器上，则也需要安装redis，sentinel只是redis软件包中的一个服务，每台服务器上都放了一个sentinel进程，sentinel的配置都是一样的，将这个sentinel.conf拷贝几个放在slave的机器上。
 * 查看下进程：
