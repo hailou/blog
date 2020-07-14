@@ -1,5 +1,5 @@
 title: minio利用docker安装集群环境
-date: 2019-11-22 11:09:04
+date: 2020-07-14 11:09:04
 categories: 环境部署
 tags: 
 	- docker
