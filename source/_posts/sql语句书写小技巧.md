@@ -1,10 +1,9 @@
 title: sql语句书写小技巧
 categories: 开发总结
 tags:
-
-  - sql
+	- kms
 date: 2020-07-21 11:26:04
-
+---
 ###### sql语句书写顺序
 
            select--->from--->where--->group by--->having--->order by
