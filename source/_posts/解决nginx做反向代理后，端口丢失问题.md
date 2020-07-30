@@ -1,11 +1,12 @@
----
 title: 解决nginx做反向代理后，端口丢失问题
 date: 2020-07-30 16:10:17
 categories: 环境部署
 tags: 
-	- nginx
-    
+  - nginx
+---
 在部署微服务项目中，发现nginx做反向代理后，端口丢失，以为项目代码出错，最后发现是nginx配置的问题
+
+<!-- more -->
 
 ```
 upstream uaa_server {
