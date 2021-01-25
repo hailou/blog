@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,js,文件上传," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="代码如下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件上传（一）XMLHttpRequest文件在前端页面压缩并上传">
+<meta property="og:url" content="https://www.xshell.cn/2019/12/19/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%EF%BC%88%E4%B8%80%EF%BC%89XMLHttpRequest%E6%96%87%E4%BB%B6%E5%9C%A8%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E5%8E%8B%E7%BC%A9%E5%B9%B6%E4%B8%8A%E4%BC%A0/index.html">
+<meta property="og:site_name" content="海露的个人博客">
+<meta property="og:description" content="代码如下">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-19T02:09:42.000Z">
+<meta property="article:modified_time" content="2021-01-25T10:44:31.051Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="文件上传">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.xshell.cn/2019/12/19/文件上传（一）XMLHttpRequest文件在前端页面压缩并上传/"/>
+
+
+
+
+
+  <title>文件上传（一）XMLHttpRequest文件在前端页面压缩并上传 | 海露的个人博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">海露的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">海露的个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.xshell.cn/2019/12/19/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%EF%BC%88%E4%B8%80%EF%BC%89XMLHttpRequest%E6%96%87%E4%BB%B6%E5%9C%A8%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E5%8E%8B%E7%BC%A9%E5%B9%B6%E4%B8%8A%E4%BC%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海露的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文件上传（一）XMLHttpRequest文件在前端页面压缩并上传</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-19T10:09:42+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">代码案例</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>代码如下</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">	&lt;title&gt;XMLHttpRequest上传文件&lt;&#x2F;title&gt;	</span><br><span class="line">	&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">		&#x2F;*</span><br><span class="line">        三个参数</span><br><span class="line">        file：一个是文件(类型是图片格式)，</span><br><span class="line">        w：一个是文件压缩的后宽度，宽度越小，字节越小</span><br><span class="line">        objDiv：一个是容器或者回调函数</span><br><span class="line">        photoCompress()</span><br><span class="line">         *&#x2F;</span><br><span class="line">		function photoCompress(file,w,objDiv)&#123;</span><br><span class="line">			var ready&#x3D;new FileReader();</span><br><span class="line">			&#x2F;*开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.*&#x2F;</span><br><span class="line">			ready.readAsDataURL(file);</span><br><span class="line">			ready.onload&#x3D;function()&#123;</span><br><span class="line">				var re&#x3D;this.result;</span><br><span class="line">				canvasDataURL(re,w,objDiv)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		function canvasDataURL(path, obj, callback)&#123;</span><br><span class="line">			var img &#x3D; new Image();</span><br><span class="line">			img.src &#x3D; path;</span><br><span class="line">			img.onload &#x3D; function()&#123;</span><br><span class="line">				var that &#x3D; this;</span><br><span class="line">				&#x2F;&#x2F; 默认按比例压缩</span><br><span class="line">				var w &#x3D; that.width,</span><br><span class="line">						h &#x3D; that.height,</span><br><span class="line">						scale &#x3D; w &#x2F; h;</span><br><span class="line">				w &#x3D; obj.width || w;</span><br><span class="line">				h &#x3D; obj.height || (w &#x2F; scale);</span><br><span class="line">				var quality &#x3D; 0.7;  &#x2F;&#x2F; 默认图片质量为0.7</span><br><span class="line">				&#x2F;&#x2F;生成canvas</span><br><span class="line">				var canvas &#x3D; document.createElement(&#39;canvas&#39;);</span><br><span class="line">				var ctx &#x3D; canvas.getContext(&#39;2d&#39;);</span><br><span class="line">				&#x2F;&#x2F; 创建属性节点</span><br><span class="line">				var anw &#x3D; document.createAttribute(&quot;width&quot;);</span><br><span class="line">				anw.nodeValue &#x3D; w;</span><br><span class="line">				var anh &#x3D; document.createAttribute(&quot;height&quot;);</span><br><span class="line">				anh.nodeValue &#x3D; h;</span><br><span class="line">				canvas.setAttributeNode(anw);</span><br><span class="line">				canvas.setAttributeNode(anh);</span><br><span class="line">				ctx.drawImage(that, 0, 0, w, h);</span><br><span class="line">				&#x2F;&#x2F; 图像质量</span><br><span class="line">				if(obj.quality &amp;&amp; obj.quality &lt;&#x3D; 1 &amp;&amp; obj.quality &gt; 0)&#123;</span><br><span class="line">					quality &#x3D; obj.quality;</span><br><span class="line">				&#125;</span><br><span class="line">				&#x2F;&#x2F; quality值越小，所绘制出的图像越模糊</span><br><span class="line">				var base64 &#x3D; canvas.toDataURL(&#39;image&#x2F;jpeg&#39;, quality);</span><br><span class="line">				&#x2F;&#x2F; 回调函数返回base64的值</span><br><span class="line">				callback(base64);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		&#x2F;**</span><br><span class="line">		 * 将以base64的图片url数据转换为Blob</span><br><span class="line">		 * @param urlData</span><br><span class="line">		 *            用url方式表示的base64图片数据</span><br><span class="line">		 *&#x2F;</span><br><span class="line">		function convertBase64UrlToBlob(urlData)&#123;</span><br><span class="line">			var arr &#x3D; urlData.split(&#39;,&#39;), mime &#x3D; arr[0].match(&#x2F;:(.*?);&#x2F;)[1],</span><br><span class="line">					bstr &#x3D; atob(arr[1]), n &#x3D; bstr.length, u8arr &#x3D; new Uint8Array(n);</span><br><span class="line">			while(n--)&#123;</span><br><span class="line">				u8arr[n] &#x3D; bstr.charCodeAt(n);</span><br><span class="line">			&#125;</span><br><span class="line">			return new Blob([u8arr], &#123;type:mime&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		var xhr;</span><br><span class="line">		&#x2F;&#x2F;上传文件方法</span><br><span class="line">		function UpladFile() &#123;</span><br><span class="line">			var fileObj &#x3D; document.getElementById(&quot;file&quot;).files[0]; &#x2F;&#x2F; js 获取文件对象</span><br><span class="line">			if(fileObj.size&#x2F;1024 &gt; 1025*100)&#123;&#x2F;&#x2F; 大于100M不让上传</span><br><span class="line">				alert(&quot;文件已超出系统100M接受大小！&quot;);</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line">			var url &#x3D; &quot;&#x2F;common&#x2F;upload&quot;; &#x2F;&#x2F; 接收上传文件的后台地址</span><br><span class="line">			var form &#x3D; new FormData(); &#x2F;&#x2F; FormData 对象</span><br><span class="line">			&#x2F;&#x2F;表单对象可自行添加要发送的参数例如form.append(&quot;age&quot;10) 则后台可接收到age&#x3D;10的参数</span><br><span class="line">			var index &#x3D; fileObj.name.lastIndexOf(&quot;.&quot;);</span><br><span class="line">			var suffix &#x3D; fileObj.name.substr(index+1).toUpperCase();</span><br><span class="line">			if((fileObj.size&#x2F;1024 &gt; 1025 ) &amp;&amp; (suffix&#x3D;&#x3D;&quot;BMP&quot;||suffix&#x3D;&#x3D;&quot;JPG&quot;||suffix&#x3D;&#x3D;&quot;JPEG&quot;||suffix&#x3D;&#x3D;&quot;PNG&quot;||suffix&#x3D;&#x3D;&quot;GIF&quot;)) &#123; &#x2F;&#x2F;大于1M,并且是图片类，进行压缩上传</span><br><span class="line">				if(fileObj.size&#x2F;1024 &gt; 1025*20)&#123;&#x2F;&#x2F; 大于20M不让上传</span><br><span class="line">					alert(&quot;图片已超出系统20M接受大小！&quot;);</span><br><span class="line">					return;</span><br><span class="line">				&#125;</span><br><span class="line">				var startTime &#x3D; new Date(); &#x2F;&#x2F; 结束时间</span><br><span class="line">				console.info(&quot;文件大小为：&quot;+fileObj.size&#x2F;(1024*1024)+&quot;M,压缩中...&quot;);</span><br><span class="line">				photoCompress(fileObj, &#123;</span><br><span class="line">					quality: 0.2</span><br><span class="line">				&#125;, function(base64Codes)&#123;</span><br><span class="line">					var endTime &#x3D; new Date(); &#x2F;&#x2F; 结束时间</span><br><span class="line">					console.info(&quot;文件压缩后大小为：&quot;+base64Codes.length&#x2F;(1024*1024)+&quot;M,用时&quot;+(endTime - startTime)+&quot;毫秒,开始上传！&quot;);</span><br><span class="line">					var bl &#x3D; convertBase64UrlToBlob(base64Codes);</span><br><span class="line">					&#x2F;&#x2F;直接向FormData对象中添加File或Blob，就像下面这样：</span><br><span class="line">					form.append(&quot;file&quot;, bl, &quot;file_&quot;+Date.parse(new Date())+&quot;.jpg&quot;); &#x2F;&#x2F; 文件对象</span><br><span class="line">					xhr &#x3D; new XMLHttpRequest();  &#x2F;&#x2F; XMLHttpRequest 对象</span><br><span class="line">					xhr.open(&quot;post&quot;, url, true); &#x2F;&#x2F;post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。</span><br><span class="line">					xhr.onload &#x3D; uploadComplete; &#x2F;&#x2F;请求完成</span><br><span class="line">					xhr.onerror &#x3D;  uploadFailed; &#x2F;&#x2F;请求失败</span><br><span class="line"></span><br><span class="line">					xhr.upload.onprogress &#x3D; progressFunction;&#x2F;&#x2F;【上传进度调用方法实现】</span><br><span class="line">					xhr.upload.onloadstart &#x3D; function()&#123;&#x2F;&#x2F;上传开始执行方法</span><br><span class="line">						ot &#x3D; new Date().getTime();   &#x2F;&#x2F;设置上传开始时间</span><br><span class="line">						oloaded &#x3D; 0;&#x2F;&#x2F;设置上传开始时，以上传的文件大小为0</span><br><span class="line">					&#125;;</span><br><span class="line"></span><br><span class="line">					xhr.send(form); &#x2F;&#x2F;开始上传，发送form数据</span><br><span class="line">				&#125;);</span><br><span class="line">			&#125;else&#123; &#x2F;&#x2F;小于等于1M 原图上传</span><br><span class="line">				form.append(&quot;file&quot;, fileObj); &#x2F;&#x2F; 文件对象</span><br><span class="line">				xhr &#x3D; new XMLHttpRequest();  &#x2F;&#x2F; XMLHttpRequest 对象</span><br><span class="line">				xhr.open(&quot;post&quot;, url, true); &#x2F;&#x2F;post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。</span><br><span class="line">				xhr.onload &#x3D; uploadComplete; &#x2F;&#x2F;请求完成</span><br><span class="line">				xhr.onerror &#x3D;  uploadFailed; &#x2F;&#x2F;请求失败</span><br><span class="line"></span><br><span class="line">				xhr.upload.onprogress &#x3D; progressFunction;&#x2F;&#x2F;【上传进度调用方法实现】</span><br><span class="line">				xhr.upload.onloadstart &#x3D; function()&#123;&#x2F;&#x2F;上传开始执行方法</span><br><span class="line">					ot &#x3D; new Date().getTime();   &#x2F;&#x2F;设置上传开始时间</span><br><span class="line">					oloaded &#x3D; 0;&#x2F;&#x2F;设置上传开始时，以上传的文件大小为0</span><br><span class="line">				&#125;;</span><br><span class="line"></span><br><span class="line">				xhr.send(form); &#x2F;&#x2F;开始上传，发送form数据</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;上传成功响应</span><br><span class="line">		function uploadComplete(evt) &#123;</span><br><span class="line">			&#x2F;&#x2F;服务断接收完文件返回的结果</span><br><span class="line">			console.info(&#39;evt&#x3D;&#39;+JSON.stringify(evt));</span><br><span class="line">			var data &#x3D; JSON.parse(evt.target.responseText);</span><br><span class="line">			&#x2F;&#x2F;根据自己服务器返回的参数进行判断，可自定success 或者data.code &#x3D; 200 以自己返回的字段为准</span><br><span class="line">			console.info(&#39;data&#x3D;&#39;+JSON.stringify(data));</span><br><span class="line">			if(data.code&#x3D;&#x3D;0) &#123;</span><br><span class="line">				alert(&quot;上传成功！&quot;);</span><br><span class="line">			&#125;else&#123;</span><br><span class="line">				alert(&quot;上传失败！&quot;);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		&#x2F;&#x2F;上传失败</span><br><span class="line">		function uploadFailed(evt) &#123;</span><br><span class="line">			console.info(evt);</span><br><span class="line">			alert(&quot;上传失败！!!&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		&#x2F;&#x2F;取消上传</span><br><span class="line">		function cancleUploadFile()&#123;</span><br><span class="line">			xhr.abort();</span><br><span class="line">			console.info(&quot;取消方法被调用&quot;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;上传进度实现方法，上传过程中会频繁调用该方法</span><br><span class="line">		function progressFunction(evt) &#123;</span><br><span class="line">			var progressBar &#x3D; document.getElementById(&quot;progressBar&quot;);</span><br><span class="line">			var percentageDiv &#x3D; document.getElementById(&quot;percentage&quot;);</span><br><span class="line">			if(progressBar &#x3D;&#x3D;null || percentageDiv&#x3D;&#x3D;null )&#123;</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line">			&#x2F;&#x2F; event.total是需要传输的总字节，event.loaded是已经传输的字节。如果event.lengthComputable不为真，则event.total等于0</span><br><span class="line">			if (evt.lengthComputable) &#123;&#x2F;&#x2F;</span><br><span class="line">				progressBar.max &#x3D; evt.total;</span><br><span class="line">				progressBar.value &#x3D; evt.loaded;</span><br><span class="line">				percentageDiv.innerHTML &#x3D; Math.round(evt.loaded &#x2F; evt.total * 100) + &quot;%&quot;;</span><br><span class="line">			&#125;</span><br><span class="line">			var time &#x3D; document.getElementById(&quot;time&quot;);</span><br><span class="line">			var nt &#x3D; new Date().getTime();&#x2F;&#x2F;获取当前时间</span><br><span class="line">			var pertime &#x3D; (nt-ot)&#x2F;1000; &#x2F;&#x2F;计算出上次调用该方法时到现在的时间差，单位为s</span><br><span class="line">			ot &#x3D; new Date().getTime(); &#x2F;&#x2F;重新赋值时间，用于下次计算</span><br><span class="line">			var perload &#x3D; evt.loaded - oloaded; &#x2F;&#x2F;计算该分段上传的文件大小，单位b</span><br><span class="line">			oloaded &#x3D; evt.loaded;&#x2F;&#x2F;重新赋值已上传文件大小，用以下次计算</span><br><span class="line">			&#x2F;&#x2F;上传速度计算</span><br><span class="line">			var speed &#x3D; perload&#x2F;pertime;&#x2F;&#x2F;单位b&#x2F;s</span><br><span class="line">			var bspeed &#x3D; speed;</span><br><span class="line">			var units &#x3D; &#39;b&#x2F;s&#39;;&#x2F;&#x2F;单位名称</span><br><span class="line">			if(speed&#x2F;1024&gt;1)&#123;</span><br><span class="line">				speed &#x3D; speed&#x2F;1024;</span><br><span class="line">				units &#x3D; &#39;k&#x2F;s&#39;;</span><br><span class="line">			&#125;</span><br><span class="line">			if(speed&#x2F;1024&gt;1)&#123;</span><br><span class="line">				speed &#x3D; speed&#x2F;1024;</span><br><span class="line">				units &#x3D; &#39;M&#x2F;s&#39;;</span><br><span class="line">			&#125;</span><br><span class="line">			speed &#x3D; speed.toFixed(1);</span><br><span class="line">			&#x2F;&#x2F;剩余时间</span><br><span class="line">			var resttime &#x3D; ((evt.total-evt.loaded)&#x2F;bspeed).toFixed(1);</span><br><span class="line">			time.innerHTML &#x3D; &#39;，速度：&#39;+speed+units+&#39;，剩余时间：&#39;+resttime+&#39;s&#39;;</span><br><span class="line">			if(bspeed&#x3D;&#x3D;0) time.innerHTML &#x3D; &#39;上传已取消&#39;;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;progress id&#x3D;&quot;progressBar&quot; value&#x3D;&quot;0&quot; max&#x3D;&quot;100&quot; style&#x3D;&quot;width: 300px;&quot;&gt;&lt;&#x2F;progress&gt;</span><br><span class="line">&lt;span id&#x3D;&quot;percentage&quot;&gt;&lt;&#x2F;span&gt;&lt;span id&#x3D;&quot;time&quot;&gt;&lt;&#x2F;span&gt;</span><br><span class="line">&lt;br &#x2F;&gt;&lt;br &#x2F;&gt;</span><br><span class="line">&lt;!--图片上传：&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;file&quot; name&#x3D;&quot;myfile&quot; accept&#x3D;&quot;image&#x2F;x-png, image&#x2F;jpg, image&#x2F;jpeg, image&#x2F;gif&quot;&#x2F;&gt;&lt;br&#x2F;&gt;--&gt;</span><br><span class="line">文件上传：&lt;input type&#x3D;&quot;file&quot; id&#x3D;&quot;file&quot; name&#x3D;&quot;myfile&quot;  &#x2F;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; onclick&#x3D;&quot;UpladFile()&quot; value&#x3D;&quot;上传&quot; &#x2F;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; onclick&#x3D;&quot;cancleUploadFile()&quot; value&#x3D;&quot;取消&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+            <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" rel="tag"># 文件上传</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/13/linux%E5%AE%89%E8%A3%85nginx-%E9%85%8D%E7%BD%AEhttps/" rel="next" title="linux安装nginx 配置https">
+                <i class="fa fa-chevron-left"></i> linux安装nginx 配置https
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/20/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%EF%BC%88%E4%BA%8C%EF%BC%89%E4%BB%BF%E4%BA%AC%E4%B8%9C%E6%A0%B7%E5%BC%8F%EF%BC%8C%E5%B8%A6%E5%89%8D%E7%AB%AF%E5%8E%8B%E7%BC%A9%EF%BC%8C%E5%B8%A6%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD/" rel="prev" title="文件上传（二）仿京东样式，带前端压缩，带回调函数的上传功能">
+                文件上传（二）仿京东样式，带前端压缩，带回调函数的上传功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

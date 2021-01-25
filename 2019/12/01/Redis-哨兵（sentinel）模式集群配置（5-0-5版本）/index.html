@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="系统环境：CentOS7服务器2台（1主1从）：192.168.31.2（master）192.168.31.3（slave）redis版本：5.0.5安装： 进入到目录：cd &#x2F;usr&#x2F;local 下载redis：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.5.tar.gz 下载完成后解压：tar zxvf redis-5.0.5.tar.g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 哨兵（sentinel）模式集群配置（5.0.5版本）">
+<meta property="og:url" content="https://www.xshell.cn/2019/12/01/Redis-%E5%93%A8%E5%85%B5%EF%BC%88sentinel%EF%BC%89%E6%A8%A1%E5%BC%8F%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%EF%BC%885-0-5%E7%89%88%E6%9C%AC%EF%BC%89/index.html">
+<meta property="og:site_name" content="海露的个人博客">
+<meta property="og:description" content="系统环境：CentOS7服务器2台（1主1从）：192.168.31.2（master）192.168.31.3（slave）redis版本：5.0.5安装： 进入到目录：cd &#x2F;usr&#x2F;local 下载redis：wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.5.tar.gz 下载完成后解压：tar zxvf redis-5.0.5.tar.g">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-01T08:11:56.000Z">
+<meta property="article:modified_time" content="2021-01-25T10:44:31.044Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.xshell.cn/2019/12/01/Redis-哨兵（sentinel）模式集群配置（5-0-5版本）/"/>
+
+
+
+
+
+  <title>Redis 哨兵（sentinel）模式集群配置（5.0.5版本） | 海露的个人博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">海露的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">海露的个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.xshell.cn/2019/12/01/Redis-%E5%93%A8%E5%85%B5%EF%BC%88sentinel%EF%BC%89%E6%A8%A1%E5%BC%8F%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%EF%BC%885-0-5%E7%89%88%E6%9C%AC%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="海露的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis 哨兵（sentinel）模式集群配置（5.0.5版本）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-01T16:11:56+08:00">
+                2019-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/" itemprop="url" rel="index">
+                    <span itemprop="name">环境部署</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="系统环境：CentOS7"><a href="#系统环境：CentOS7" class="headerlink" title="系统环境：CentOS7"></a>系统环境：CentOS7</h5><h5 id="服务器2台（1主1从）：192-168-31-2（master）192-168-31-3（slave）"><a href="#服务器2台（1主1从）：192-168-31-2（master）192-168-31-3（slave）" class="headerlink" title="服务器2台（1主1从）：192.168.31.2（master）192.168.31.3（slave）"></a>服务器2台（1主1从）：192.168.31.2（master）192.168.31.3（slave）</h5><h5 id="redis版本：5-0-5"><a href="#redis版本：5-0-5" class="headerlink" title="redis版本：5.0.5"></a>redis版本：5.0.5</h5><h5 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h5><ul>
+<li>进入到目录：cd /usr/local</li>
+<li>下载redis：wget <a target="_blank" rel="noopener" href="http://download.redis.io/releases/redis-5.0.5.tar.gz">http://download.redis.io/releases/redis-5.0.5.tar.gz</a></li>
+<li>下载完成后解压：tar zxvf redis-5.0.5.tar.gz</li>
+<li>重命名为redis文件夹：mv redis-5.0.5 redis</li>
+<li>进入到redis文件夹：cd redis</li>
+<li>编译及安装：make &amp;&amp; make install</li>
+<li>特别说明：官方文档只给出了make（编译），没有给出make install（安装）</li>
+</ul>
+<a id="more"></a>
+
+<h5 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h5><ul>
+<li>Master配置，把master的redis.conf拷贝了一份命名为redis_master.conf</li>
+<li>内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">### NETWORK 设置：</span><br><span class="line">#bind 0.0.0.0</span><br><span class="line">#保护模式关闭，这里使用密码访问</span><br><span class="line">protected-mode no</span><br><span class="line">#设置端口，建议测试时可以使用默认端口，我这里改掉了，建议生产环境均使用自定义端口</span><br><span class="line">port 17000</span><br><span class="line">#Client 端空闲断开连接的时间</span><br><span class="line">timeout 30</span><br><span class="line"></span><br><span class="line">### GENERAL 设置：</span><br><span class="line">#后台模式运行</span><br><span class="line">daemonize yes</span><br><span class="line">#pid进程文件名</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_17000.pid</span><br><span class="line">#日志文件的位置</span><br><span class="line">logfile &#x2F;usr&#x2F;local&#x2F;redis&#x2F;logs&#x2F;redis.log</span><br><span class="line"></span><br><span class="line">### SNAPSHOTTING 设置：</span><br><span class="line">#快照文件的路径</span><br><span class="line">dir &#x2F;usr&#x2F;local&#x2F;redis&#x2F;datas</span><br><span class="line"></span><br><span class="line">### APPEND ONLY MODE 设置：</span><br><span class="line">#默认值是No，意思是不使用AOF增量持久化的方式，使用RDB全量持久化的方式。把No值改成Yes，使用AOF增量持久化的方式</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line">###SECURITY 设置密码:，生产环境一定要使用复杂密码</span><br><span class="line">requirepass 123456</span><br><span class="line"></span><br><span class="line">#必需配置这个，不然当主节点死了后，从替代主。原来的主节点启动后变成从节点后，数据不能同步，因为从变主后，认证不通过，这个就需要把原来的从的密码给配置上。</span><br><span class="line">masterauth 123456</span><br></pre></td></tr></table></figure></li>
+<li>Slave配置，我把master的redis.conf拷贝了一份命名为redis_slave.conf</li>
+<li>内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">### NETWORK 设置：</span><br><span class="line"># bind 127.0.0.1 #注释掉bind，任何ip均可访问</span><br><span class="line">#设置端口</span><br><span class="line">port 17000</span><br><span class="line">#保护模式关闭，使用密码访问</span><br><span class="line">protected-mode no</span><br><span class="line">#Client 端空闲断开连接的时间</span><br><span class="line">timeout 30</span><br><span class="line"></span><br><span class="line">### GENERAL 设置：</span><br><span class="line">#后台模式运行</span><br><span class="line">daemonize yes</span><br><span class="line">#pid进程文件名</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_17000.pid</span><br><span class="line">#日志文件的位置</span><br><span class="line">logfile &#x2F;usr&#x2F;local&#x2F;redis&#x2F;logs&#x2F;redis.log</span><br><span class="line"></span><br><span class="line">### SNAPSHOTTING 设置：</span><br><span class="line">#快照文件的路径</span><br><span class="line">dir &#x2F;usr&#x2F;local&#x2F;redis&#x2F;datas</span><br><span class="line"></span><br><span class="line">### REPLICATION 设置：</span><br><span class="line">#主服务器的Ip地址和Port端口号</span><br><span class="line">replicaof 192.168.31.2 17000</span><br><span class="line">#如果slave 无法与master 同步，设置成slave不可读，方便监控脚本发现问题。</span><br><span class="line">replica-serve-stale-data no</span><br><span class="line">#master的密码</span><br><span class="line">masterauth 123456</span><br><span class="line"></span><br><span class="line">### APPEND ONLY MODE 设置：</span><br><span class="line">#默认值是No，意思是不使用AOF增量持久化的方式，使用RDB全量持久化的方式。把No值改成Yes，使用AOF增量持久化的方式</span><br><span class="line">appendonly yes</span><br><span class="line">appendfsync always</span><br><span class="line"></span><br><span class="line">###SECURITY 设置密码:，生产环境一定要使用复杂密码</span><br><span class="line">requirepass 123456</span><br></pre></td></tr></table></figure></li>
+<li>Sentinel（哨兵）配置，配置文件为sentinel.conf</li>
+<li>内容如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#哨兵端口号</span><br><span class="line">port 16000</span><br><span class="line">#关闭保护模式</span><br><span class="line">protected-mode no</span><br><span class="line">#守护进程</span><br><span class="line">daemonize yes</span><br><span class="line">#哨兵程序的工作路径</span><br><span class="line">dir &#x2F;usr&#x2F;local&#x2F;redis&#x2F;sentinel&#x2F;</span><br><span class="line">#哨兵程序的工作日志文件</span><br><span class="line">logfile &quot;sentinel.log&quot;</span><br><span class="line"></span><br><span class="line">#Sentinel去监视一个名为mymaster的主redis实例，这个主实例的IP地址为本机地址192.168.31.2，端口号为17000，而将这个主实例判断为失效至少需要1个 Sentinel进程的同意，只要同意Sentinel的数量不达标，自动failover就不会执行</span><br><span class="line">#这个一定要放在下面这句的上面，不然sentinel启动不了</span><br><span class="line">sentinel monitor mymaster 192.168.31.2 17000 1</span><br><span class="line">#master的访问密码</span><br><span class="line">sentinel auth-pass mymaster 123456</span><br><span class="line">#哨兵程序每5秒检测一次Master是否正常</span><br><span class="line">sentinel down-after-milliseconds mymaster 5000</span><br><span class="line"></span><br><span class="line">#指定了在执行故障转移时，最多可以有多少个从Redis实例在同步新的主实例，在从Redis实例较多的情况下这个数字越小，同步的时间越长，完成故障转移所需的时间就越长</span><br><span class="line">sentinel parallel-syncs mymaster 2</span><br><span class="line">#如果在该时间（ms）内未能完成failover操作，则认为该failover失败，生产环境需要根据数据量设置该值</span><br><span class="line">sentinel failover-timeout mymaster 300000</span><br></pre></td></tr></table></figure>
+<h5 id="启动Redis服务"><a href="#启动Redis服务" class="headerlink" title="启动Redis服务"></a>启动Redis服务</h5></li>
+<li>在各服务器上先建立配置文件中需要的文件夹</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;usr&#x2F;local&#x2F;redis&#x2F;datas</span><br><span class="line">mkdir -p &#x2F;usr&#x2F;local&#x2F;redis&#x2F;logs</span><br><span class="line">mkdir -p &#x2F;usr&#x2F;local&#x2F;redis&#x2F;sentinel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动服务,先开启master服务，也就是192.168.31.2服务器,启动master:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis&#x2F;src</span><br><span class="line">.&#x2F;redis-server &#x2F;usr&#x2F;local&#x2F;redis&#x2F;redis_master.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动服务,启动slave服务:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis&#x2F;src</span><br><span class="line">.&#x2F;redis-server &#x2F;usr&#x2F;local&#x2F;redis&#x2F;redis_slave.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>使用redis-cli访问服务端，在master上查看状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;redis-cli -p 17000 -a 123456</span><br><span class="line">127.0.0.1:17000&gt; info replication</span><br></pre></td></tr></table></figure></li>
+<li><p>这里有具体的集群信息（略）</p>
+</li>
+<li><p>启动Sentinel（哨兵）进程   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;redis-sentinel &#x2F;usr&#x2F;local&#x2F;redis&#x2F;sentinel.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>说明：哨兵进程不一定与redis数量一致，也不一定要放在redis服务器上，sentinel的作用是监控所有服务及与其它哨兵通信，若sentinel单独放其它服务器上，则也需要安装redis，sentinel只是redis软件包中的一个服务，每台服务器上都放了一个sentinel进程，sentinel的配置都是一样的，将这个sentinel.conf拷贝几个放在slave的机器上。</p>
+</li>
+<li><p>查看下进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep redis</span><br></pre></td></tr></table></figure></li>
+<li><p>set aaa a 测试下数据是否同步</p>
+<h5 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h5></li>
+<li><p>模拟master宕机，这里直接把master进程杀掉 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 2730</span><br></pre></td></tr></table></figure></li>
+<li><p>看下从节点是否变主节点，再启动原来主节点，测试是否正确</p>
+<h5 id="当sentinel设置2为down（客观下线）后，这些sentinel开始进行投票选举，这里特别注意，选举的不是redis-server服务，而是sentinel服务，意思就是先选举一个sentinel，然后由它决定将哪个slave提升为master。"><a href="#当sentinel设置2为down（客观下线）后，这些sentinel开始进行投票选举，这里特别注意，选举的不是redis-server服务，而是sentinel服务，意思就是先选举一个sentinel，然后由它决定将哪个slave提升为master。" class="headerlink" title="当sentinel设置2为down（客观下线）后，这些sentinel开始进行投票选举，这里特别注意，选举的不是redis_server服务，而是sentinel服务，意思就是先选举一个sentinel，然后由它决定将哪个slave提升为master。"></a>当sentinel设置2为down（客观下线）后，这些sentinel开始进行投票选举，这里特别注意，选举的不是redis_server服务，而是sentinel服务，意思就是先选举一个sentinel，然后由它决定将哪个slave提升为master。</h5></li>
+<li><p>参考了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chensuqian/p/10538365.html">这里</a>，但实际做的时候遇到了很多问题，解决的方案都体现在配置文件里。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/Windows-Office-%E6%BF%80%E6%B4%BB%E5%8F%8AKMS%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" rel="next" title="Windows/Office 激活及KMS服务器搭建">
+                <i class="fa fa-chevron-left"></i> Windows/Office 激活及KMS服务器搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/13/linux%E5%AE%89%E8%A3%85nginx-%E9%85%8D%E7%BD%AEhttps/" rel="prev" title="linux安装nginx 配置https">
+                linux安装nginx 配置https <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%EF%BC%9ACentOS7"><span class="nav-number">1.</span> <span class="nav-text">系统环境：CentOS7</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A82%E5%8F%B0%EF%BC%881%E4%B8%BB1%E4%BB%8E%EF%BC%89%EF%BC%9A192-168-31-2%EF%BC%88master%EF%BC%89192-168-31-3%EF%BC%88slave%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">服务器2台（1主1从）：192.168.31.2（master）192.168.31.3（slave）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#redis%E7%89%88%E6%9C%AC%EF%BC%9A5-0-5"><span class="nav-number">3.</span> <span class="nav-text">redis版本：5.0.5</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">安装：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">配置：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8Redis%E6%9C%8D%E5%8A%A1"><span class="nav-number">6.</span> <span class="nav-text">启动Redis服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-number">7.</span> <span class="nav-text">故障转移</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93sentinel%E8%AE%BE%E7%BD%AE2%E4%B8%BAdown%EF%BC%88%E5%AE%A2%E8%A7%82%E4%B8%8B%E7%BA%BF%EF%BC%89%E5%90%8E%EF%BC%8C%E8%BF%99%E4%BA%9Bsentinel%E5%BC%80%E5%A7%8B%E8%BF%9B%E8%A1%8C%E6%8A%95%E7%A5%A8%E9%80%89%E4%B8%BE%EF%BC%8C%E8%BF%99%E9%87%8C%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%EF%BC%8C%E9%80%89%E4%B8%BE%E7%9A%84%E4%B8%8D%E6%98%AFredis-server%E6%9C%8D%E5%8A%A1%EF%BC%8C%E8%80%8C%E6%98%AFsentinel%E6%9C%8D%E5%8A%A1%EF%BC%8C%E6%84%8F%E6%80%9D%E5%B0%B1%E6%98%AF%E5%85%88%E9%80%89%E4%B8%BE%E4%B8%80%E4%B8%AAsentinel%EF%BC%8C%E7%84%B6%E5%90%8E%E7%94%B1%E5%AE%83%E5%86%B3%E5%AE%9A%E5%B0%86%E5%93%AA%E4%B8%AAslave%E6%8F%90%E5%8D%87%E4%B8%BAmaster%E3%80%82"><span class="nav-number">8.</span> <span class="nav-text">当sentinel设置2为down（客观下线）后，这些sentinel开始进行投票选举，这里特别注意，选举的不是redis_server服务，而是sentinel服务，意思就是先选举一个sentinel，然后由它决定将哪个slave提升为master。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
